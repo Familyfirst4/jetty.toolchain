@@ -1,19 +1,14 @@
 //
-//  ========================================================================
-//  Copyright (c) 1995-2020 Mort Bay Consulting Pty. Ltd.
-//  ------------------------------------------------------------------------
-//  All rights reserved. This program and the accompanying materials
-//  are made available under the terms of the Eclipse Public License v1.0
-//  and Apache License v2.0 which accompanies this distribution.
+// ========================================================================
+// Copyright (c) 1995 Mort Bay Consulting Pty Ltd and others.
 //
-//      The Eclipse Public License is available at
-//      http://www.eclipse.org/legal/epl-v10.html
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License v. 2.0 which is available at
+// https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
+// which is available at https://www.apache.org/licenses/LICENSE-2.0.
 //
-//      The Apache License v2.0 is available at
-//      http://www.opensource.org/licenses/apache2.0.php
-//
-//  You may elect to redistribute this code under either of these licenses.
-//  ========================================================================
+// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
+// ========================================================================
 //
 
 package org.eclipse.jetty.toolchain.test;
@@ -37,7 +32,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class Sha1Sum
 {
-
+    /**
+     * @deprecated use {@link #calculate(Path)} instead
+     */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static String calculate(File file) throws NoSuchAlgorithmException, IOException
     {
         return calculate(file.toPath());
@@ -69,12 +67,21 @@ public class Sha1Sum
         return Hex.asHex(digest.digest());
     }
 
-    public static String loadSha1(File sha1File) throws IOException
+    public static String loadSha1(Path sha1File) throws IOException
     {
-        String contents = IO.readToString(sha1File);
+        String contents = Files.readString(sha1File);
         Pattern pat = Pattern.compile("^[0-9A-Fa-f]*");
         Matcher mat = pat.matcher(contents);
         assertTrue(mat.find(), "Should have found HEX code in SHA1 file: " + sha1File);
         return mat.group();
+    }
+
+    /**
+     * @deprecated use {@link #loadSha1(Path)} instead
+     */
+    @Deprecated(forRemoval = true, since = "6.0")
+    public static String loadSha1(File sha1File) throws IOException
+    {
+        return loadSha1(sha1File.toPath());
     }
 }

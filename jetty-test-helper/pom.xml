@@ -9,55 +9,37 @@
   </parent>
   <artifactId>jetty-test-helper</artifactId>
   <packaging>jar</packaging>
-  <version>5.10-SNAPSHOT</version>
+  <version>6.3-SNAPSHOT</version>
   <name>Jetty Toolchain :: Test Helper</name>
   <description>Unit Testing Support for Jetty (common classes for some unit tests)</description>
   <properties>
-    <maven.version>3.0</maven.version>
+    <compiler.source>11</compiler.source>
+    <compiler.target>11</compiler.target>
+    <compiler.release>11</compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.engine.version>5.8.2</junit.engine.version>
-    <jetty.testtracker.log>false</jetty.testtracker.log>
+
+    <maven.version>3.0</maven.version>
+
+    <junit.engine.version>5.10.0</junit.engine.version>
+    <jetty.testtracker.log>true</jetty.testtracker.log>
   </properties>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.1</version>
+        <version>3.11.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <release>8</release>
+          <source>${compiler.source}</source>
+          <target>${compiler.target}</target>
+          <release>${compiler.release}</release>
+          <showWarnings>true</showWarnings>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.4.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.1</version>
         <configuration>
           <useReleaseProfile>true</useReleaseProfile>
           <releaseProfiles>eclipse-release</releaseProfiles>
@@ -66,7 +48,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
-        <version>1.7.0</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
@@ -83,34 +65,40 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.17.0</version>
-        <configuration>
-          <targetJdk>1.5</targetJdk>
-          <rulesets>
-            <ruleset>jetty/pmd_ruleset.xml</ruleset>
-          </rulesets>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.eclipse.jetty.toolchain</groupId>
-            <artifactId>jetty-build-support</artifactId>
-            <version>1.0</version>
-          </dependency>
-        </dependencies>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>enforce-build-env</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.8.4,)</version>
+                  <message>[ERROR] OLD MAVEN [${maven.version}] in use, Jetty ${project.version} requires Maven 3.8.4 or newer</message>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[11,)</version>
+                  <message>[ERROR] OLD JDK [${java.version}] in use. Jetty ${project.version} requires JDK 11 or newer</message>
+                </requireJavaVersion>
+                <requireUpperBoundDeps />
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>4.1</version>
+        <version>4.3</version>
         <configuration>
           <header>header-template.txt</header>
           <failIfMissing>true</failIfMissing>
           <aggregate>true</aggregate>
           <strictCheck>true</strictCheck>
-          <properties>
-             <copyright-range>${project.inceptionYear}-2020</copyright-range>
-          </properties>
           <mapping>
             <java>DOUBLESLASH_STYLE</java>
           </mapping>
@@ -131,7 +119,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.2.1</version>
         <configuration>
           <systemPropertyVariables>
             <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
@@ -158,7 +146,7 @@
     <connection>scm:git:https://github.com/eclipse/jetty.toolchain.git</connection>
     <developerConnection>scm:git:git@github.com:eclipse/jetty.toolchain.git</developerConnection>
     <url>https://github.com/eclipse/jetty.toolchain/tree/master/jetty-test-helper</url>
-    <tag>HEAD</tag>
+    <tag>jetty-test-helper-6.0</tag>
   </scm>
 
   <repositories>
@@ -186,6 +174,40 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+
+  <profiles>
+    <profile>
+      <id>ci</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.3.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.6.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
 

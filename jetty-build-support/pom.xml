@@ -13,17 +13,17 @@
   <name>Jetty Toolchain :: Build Support</name>
   <description>Build Support for Jetty (Contains Enforcer Rules, PMD Rulesets, etc ...)</description>
   <properties>
-    <enforcer.version>3.1.0</enforcer.version>
-    <shade.version>3.3.0</shade.version>
+    <enforcer.version>3.4.1</enforcer.version>
+    <shade.version>3.5.1</shade.version>
     <maven.version>2.2.1</maven.version>
-    <junit.engine.version>5.8.2</junit.engine.version>
+    <junit.engine.version>5.10.0</junit.engine.version>
   </properties>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.1</version>
+        <version>3.11.0</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -32,7 +32,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <goals>
@@ -44,7 +44,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.2.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -60,7 +60,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.1</version>
         <configuration>
           <useReleaseProfile>true</useReleaseProfile>
           <releaseProfiles>eclipse-release</releaseProfiles>

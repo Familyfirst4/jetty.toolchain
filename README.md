@@ -1,3 +1,22 @@
+# This repository is scheduled to be ARCHIVED.
+
+### Currently Migrated
+* jetty-setuid -> [/jetty/jetty.setuid](https://github.com/jetty/jetty.setuid)
+* jetty-schemas -> [/jetty/jetty.schemas](https://github.com/jetty/jetty.schemas)
+* jetty-xhtml-schemas -> [/jetty/jetty.schemas.xhtml](https://github.com/jetty/jetty.schemas.xhtml)
+* jetty-test-helper -> [/jetty/jetty.test.helper](https://github.com/jetty/jetty.test.helper)
+* jetty-test-policy -> [/jetty/jetty.test.helper](https://github.com/jetty/jetty.test.policy)
+* jetty-build-support -> [/jetty/jetty.test.helper](https://github.com/jetty/jetty.build.support)
+* jetty-javax-websocket-api -> [/jetty/jetty.websocket.api/tree/javax-websocket-api](https://github.com/jetty/jetty.websocket.api/tree/javax-websocket-api)
+* jetty-jakarta-websocket-api -> [/jetty/jetty.websocket.api](https://github.com/jetty/jetty.websocket.api)
+* jetty-javax-servlet-api -> [/jetty/jetty.servlet.api/tree/javax-servlet-api](https://github.com/jetty/jetty.servlet.api/tree/javax-servlet-api)
+* jetty-jakarta-servlet-api -> [/jetty/jetty.servlet.api](https://github.com/jetty/jetty.servlet.api)
+* jetty-perf-helper -> [/jetty/jetty.perf.helper](https://github.com/jetty/jetty.perf.helper)
+* jetty-artifact-resources -> [/jetty/jetty.artifact.resources](https://github.com/jetty/jetty.artifact.resources)
+* jetty-assembly-descriptors -> [/jetty/jetty.assembly.descriptors](https://github.com/jetty/jetty.assembly.descriptors)
+
+
+
 Build Toolchain for the Eclipse Jetty Project build
 ===================================================
 

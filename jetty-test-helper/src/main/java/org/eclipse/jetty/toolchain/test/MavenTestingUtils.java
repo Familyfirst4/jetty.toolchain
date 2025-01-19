@@ -1,19 +1,14 @@
 //
-//  ========================================================================
-//  Copyright (c) 1995-2020 Mort Bay Consulting Pty. Ltd.
-//  ------------------------------------------------------------------------
-//  All rights reserved. This program and the accompanying materials
-//  are made available under the terms of the Eclipse Public License v1.0
-//  and Apache License v2.0 which accompanies this distribution.
+// ========================================================================
+// Copyright (c) 1995 Mort Bay Consulting Pty Ltd and others.
 //
-//      The Eclipse Public License is available at
-//      http://www.eclipse.org/legal/epl-v10.html
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License v. 2.0 which is available at
+// https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
+// which is available at https://www.apache.org/licenses/LICENSE-2.0.
 //
-//      The Apache License v2.0 is available at
-//      http://www.opensource.org/licenses/apache2.0.php
-//
-//  You may elect to redistribute this code under either of these licenses.
-//  ========================================================================
+// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
+// ========================================================================
 //
 
 package org.eclipse.jetty.toolchain.test;
@@ -28,6 +23,10 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.TestInfo;
 
+import static org.eclipse.jetty.toolchain.test.PathMatchers.exists;
+import static org.eclipse.jetty.toolchain.test.PathMatchers.isDirectory;
+import static org.eclipse.jetty.toolchain.test.PathMatchers.isRegularFile;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -51,7 +50,9 @@ public final class MavenTestingUtils
      *
      * @return the equivalent to the maven ${basedir} property.
      * @see #getBasePath()
+     * @deprecated use {@link #getBasePath()} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getBaseDir()
     {
         return getBasePath().toFile();
@@ -108,7 +109,9 @@ public final class MavenTestingUtils
      *
      * @return the directory path to the target directory.
      * @see #getTargetPath()
+     * @deprecated use {@link #getTargetPath()} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTargetDir()
     {
         return getTargetPath().toFile();
@@ -129,7 +132,7 @@ public final class MavenTestingUtils
         if (targetPath == null)
         {
             targetPath = getBasePath().resolve("target");
-            PathAssert.assertDirExists("Target Dir", targetPath);
+            assertThat("Target Dir", targetPath, isDirectory());
         }
         return targetPath;
     }
@@ -142,7 +145,9 @@ public final class MavenTestingUtils
      * @param path the path desired, no validation of existence is performed.
      * @return the File to the path.
      * @see #getTargetPath(String)
+     * @deprecated use {@link #getTargetPath(String)} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTargetFile(String path)
     {
         return getTargetPath(path).toFile();
@@ -168,7 +173,9 @@ public final class MavenTestingUtils
      *
      * @return the maven <code>${basedir}/target/tests/</code> directory.
      * Note: will not validate that the directory exists, or create the directory)
+     * @deprecated use {@link #getTargetTestingPath()} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTargetTestingDir()
     {
         return getTargetTestingPath().toFile();
@@ -193,7 +200,9 @@ public final class MavenTestingUtils
      *
      * @param testname the testname to create directory against.
      * @return the maven <code>${basedir}/target/tests/test-${testname}</code> directory
+     * @deprecated use {@link #getTargetTestingPath(String)} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTargetTestingDir(String testname)
     {
         return getTargetTestingPath(testname).toFile();
@@ -219,7 +228,9 @@ public final class MavenTestingUtils
      *
      * @param testInfo the junit 5.x testcase to base this new directory on.
      * @return the maven <code>${basedir}/target/tests/test-${testname}</code> directory.
+     * @deprecated use {@link #getTargetTestingPath(TestInfo)} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTargetTestingDir(TestInfo testInfo)
     {
         return getTargetTestingPath(testInfo.getDisplayName()).toFile();
@@ -311,7 +322,9 @@ public final class MavenTestingUtils
      *
      * @param path the relative path to reference
      * @return the file reference (must exist)
+     * @deprecated use {@link #getProjectFilePath(String)} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getProjectFile(String path)
     {
         return getProjectFilePath(path).toFile();
@@ -329,7 +342,7 @@ public final class MavenTestingUtils
     public static Path getProjectFilePath(String path)
     {
         Path file = getBasePath().resolve(path);
-        PathAssert.assertFileExists("Project File", file);
+        assertThat("Project File", file, isRegularFile());
         return file;
     }
 
@@ -343,7 +356,9 @@ public final class MavenTestingUtils
      *
      * @param path the relative path to reference
      * @return the directory reference (must exist)
+     * @deprecated use {@link #getProjectDirPath(String)} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getProjectDir(String path)
     {
         return getProjectDirPath(path).toFile();
@@ -361,7 +376,7 @@ public final class MavenTestingUtils
     public static Path getProjectDirPath(String path)
     {
         Path dir = getBasePath().resolve(path);
-        PathAssert.assertDirExists("Project Dir", dir);
+        assertThat("Project Dir", dir, isDirectory());
         return dir;
     }
 
@@ -370,7 +385,9 @@ public final class MavenTestingUtils
      * from the execution stack.
      *
      * @return the unit test id found via execution stack and junit 3.8 naming conventions.
+     * @deprecated use Junit5 {@link TestInfo} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     private static TestID getTestID()
     {
         StackTraceElement stacked[] = new Throwable().getStackTrace();
@@ -412,7 +429,9 @@ public final class MavenTestingUtils
      * Convenience method for <code>MavenTestingUtils.getTestResourcesPath().toFile()</code>
      *
      * @return the directory {@link File} to the maven <code>${basedir}/src/test/resources</code> directory
+     * @deprecated use {@link #getTestResourcesPath()} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTestResourcesDir()
     {
         return getTestResourcesPath().toFile();
@@ -428,7 +447,7 @@ public final class MavenTestingUtils
         if (testResourcesPath == null)
         {
             testResourcesPath = getBasePath().resolve("src/test/resources");
-            PathAssert.assertDirExists("Test Resources Dir", testResourcesPath);
+            assertThat("Test Resource Dir", testResourcesPath, isDirectory());
         }
         return testResourcesPath;
     }
@@ -442,7 +461,9 @@ public final class MavenTestingUtils
      *
      * @param name the name of the path to get (it must exist as a dir)
      * @return the dir in the maven <code>${basedir}/src/test/resource</code> path
+     * @deprecated use {@link #getTestResourcePathDir(String)} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTestResourceDir(String name)
     {
         return getTestResourcePathDir(name).toFile();
@@ -459,7 +480,7 @@ public final class MavenTestingUtils
     public static Path getTestResourcePathDir(String name)
     {
         Path dir = getTestResourcesPath().resolve(name);
-        PathAssert.assertDirExists("Test Resource Dir", dir);
+        assertThat("Test Resources Dir", dir, isDirectory());
         return dir;
     }
 
@@ -470,11 +491,13 @@ public final class MavenTestingUtils
      *
      * @param name the name of the path to get (it must exist as a file)
      * @return the file in maven <code>${basedir}/src/test/resource</code>
+     * @deprecated use {@link #getTestResourcePathFile(String)} instead
      */
+    @Deprecated(forRemoval = true, since = "6.0")
     public static File getTestResourceFile(String name)
     {
         File file = new File(getTestResourcesDir(), FS.separators(name));
-        PathAssert.assertFileExists("Test Resource File", file);
+        assertThat("Test Resource File", file.toPath(), isRegularFile());
         return file;
     }
 
@@ -489,7 +512,7 @@ public final class MavenTestingUtils
     public static Path getTestResourcePathFile(String name)
     {
         Path file = getTestResourcesPath().resolve(name);
-        PathAssert.assertFileExists("Test Resource File", file);
+        assertThat("Test Resource File", file, isRegularFile());
         return file;
     }
 
@@ -502,7 +525,7 @@ public final class MavenTestingUtils
     public static Path getTestResourcePath(String name)
     {
         Path path = getTestResourcesPath().resolve(name);
-        PathAssert.assertPathExists("Test Resource Path", path);
+        assertThat("Test Resource Path", path, exists());
         return path;
     }
 }

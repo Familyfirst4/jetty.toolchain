@@ -9,16 +9,17 @@
     <module>jetty-toolchain</module>
     <module>jetty-artifact-remote-resources</module>
     <module>jetty-assembly-descriptors</module>
-    <module>jetty-build-support</module>
+    <!--module>jetty-build-support</module-->
     <module>jetty-distribution-remote-resources</module>
     <module>jetty-javax-servlet-api</module>
     <module>jetty-jakarta-servlet-api</module>
     <module>jetty-javax-websocket-api</module>
     <module>jetty-jakarta-websocket-api</module>
     <module>jetty-perf-helper</module>
-    <module>jetty-schemas</module>
-    <module>jetty-test-helper</module>
+    <!--module>jetty-schemas</module-->
+    <!--module>jetty-test-helper</module-->
     <module>jetty-test-policy</module>
+    <!--module>jetty-xhtml-schemas</module-->
     <module>jetty-xslt-tools</module>
   </modules>
   <build>
@@ -26,7 +27,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
+        <version>3.1.1</version>
         <configuration>
           <!-- Never Deploy this build crutch -->
           <skip>true</skip>

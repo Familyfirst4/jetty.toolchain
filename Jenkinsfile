@@ -10,24 +10,22 @@ pipeline {
   stages {
     stage( "Parallel Stage" ) {
       parallel {
-        stage( "Build / Test - JDK11" ) {
+        stage( "Build / Test - JDK17" ) {
           agent { node { label 'linux' } }
           options { timeout( time: 120, unit: 'MINUTES' ) }
           steps {
-            container('jetty-build') {
-              mavenBuild( "jdk11", "clean install javadoc:javadoc" )
-              // Collect up the jacoco execution results
-              jacoco inclusionPattern: '**/org/eclipse/jetty/**/*.class',
-                     exclusionPattern: '',
-                     execPattern: '**/target/jacoco.exec',
-                     classPattern: '**/target/classes',
-                     sourcePattern: '**/src/main/java'
-              warnings consoleParsers: [[parserName: 'Maven'], [parserName: 'Java']]
-              script {
-                if ( env.BRANCH_NAME == 'master' )
-                {
-                  mavenBuild( "jdk11", "deploy" )
-                }
+            mavenBuild( "jdk17", "clean install javadoc:javadoc" )
+            // Collect up the jacoco execution results
+            jacoco inclusionPattern: '**/org/eclipse/jetty/**/*.class',
+                   exclusionPattern: '',
+                   execPattern: '**/target/jacoco.exec',
+                   classPattern: '**/target/classes',
+                   sourcePattern: '**/src/main/java'
+            warnings consoleParsers: [[parserName: 'Maven'], [parserName: 'Java']]
+            script {
+              if ( env.BRANCH_NAME == 'master' )
+              {
+                mavenBuild( "jdk17", "deploy" )
               }
             }
           }
@@ -61,7 +59,7 @@ def mavenBuild(jdk, cmdline) {
           mavenOpts: mavenOpts,
           mavenLocalRepo: localRepo) {
     // Some common Maven command line + provided command line
-    sh "mvn -V -B -DfailIfNoTests=false -Dmaven.test.failure.ignore=true -T3 -Djetty.testtracker.log=true -e -Dsetuid=true -Dlinux-build=true $cmdline"
+    sh "mvn -V -B -DfailIfNoTests=false -Dmaven.test.failure.ignore=true -T3 -Pci -Djetty.testtracker.log=true -e -Dsetuid=true -Dlinux-build=true $cmdline"
   }
 }
 
